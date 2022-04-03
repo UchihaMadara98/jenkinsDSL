@@ -1,0 +1,28 @@
+job('Maven-build-clone'){
+  description('Maven Build Clone Using DSL.')
+  scm{
+    git('https://github.com/UchihaMadara98/simple-java-maven-app.git','*/master')
+  }
+  steps{
+    maven{
+      mavenInstallation('default-maven')
+      goals('-B -DskipTests clean package')
+    }
+    maven{
+      mavenInstallation('default-maven')
+      goals('test')
+    }
+    shell("""
+echo \"######################\"
+echo \"    Deploying Jar     \"
+echo \"######################\"
+
+java -jar \"\${WORKSPACE_LOC}/\${JOB_NAME}/target/my-app-1.0-SNAPSHOT.jar\"
+     """)
+  }
+  
+  publishers{
+    archiveArtifacts('target/*.jar')
+    archiveJunit('target/surefire-reports/*.xml')
+  }
+}
