@@ -1,4 +1,4 @@
-job('Maven-build-Clone'){
+job('Maven-Build-Clone'){
   description('Maven Build Clone Using DSL.')
   scm{
     git('https://github.com/UchihaMadara98/simple-java-maven-app.git','*/master')
